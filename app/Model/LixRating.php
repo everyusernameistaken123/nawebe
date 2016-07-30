@@ -1,7 +1,8 @@
 <?php
 
 class LixRating extends Rating {
-	protected $url = 'http://www.ideosity.com/ourblog/post/ideosphere-blog/2010/01/14/readability-tests-and-formulas#LIX';
+	//protected $url = 'http://www.ideosity.com/ourblog/post/ideosphere-blog/2010/01/14/readability-tests-and-formulas#LIX';
+	protected $url = 'http://www.readabilityformulas.com/the-LIX-readability-formula.php';
 	protected $short_name = 'LIX';
 	protected $full_name = 'Laesbarhedsindex';
 	protected $scale_min = 0;

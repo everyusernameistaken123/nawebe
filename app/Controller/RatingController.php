@@ -286,8 +286,8 @@ class RatingController extends Controller {
     				
     				foreach($words as $word) {
     					//Einzelnes Wort
-    					
-    					if (strlen($word) > 128) {
+    					$word_length = mb_strlen($word);
+    					if ($word_length > 100) {
     						//Das ist kein Wort, sondern ne Wurscht...
     						continue;
     					}
@@ -296,10 +296,10 @@ class RatingController extends Controller {
     					//aber NICHT für Readability-Berechnung verwenden!
     					if (count($words) > 1) {
 	    					$count_words ++;
-	    					if (strlen($word) >= $long_word_threshold) {
+	    					if ($word_length > $long_word_threshold) {
 	    						$count_long_words ++;
 	    					}
-	    					$count_characters += strlen($word);
+	    					$count_characters += $word_length;
     					}
     					$count_dict_words ++;
     					
