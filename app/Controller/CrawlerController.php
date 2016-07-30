@@ -303,7 +303,7 @@ class CrawlerController extends Controller {
 		curl_setopt_array($curl, array(
 				CURLOPT_RETURNTRANSFER => 1,
 				CURLOPT_URL => $url,
-				CURLOPT_USERAGENT => 'NaWeBe - see http://einfach-denken.at/crawler/pages/faq (still testing, please do not rely on the results)',
+				CURLOPT_USERAGENT => 'NaWeBe (alpha-version) - see http://nawebe.at/pages/faq',
 				CURLOPT_HTTPHEADER => array(
 						'Accept: text/html,application/xhtml+xml,application/xml;q=0.9',
 						'Accept-Language: de-DE,de;'),
