@@ -280,8 +280,8 @@ class RatingController extends Controller {
     					$count_sentences ++;
     				} else {
     					if ($verbose_debug && count($words) > 0) {
-	    					echo "<br/>".$style_spans['single_word'].$sentence.'</span>';
-	    				}
+	    					echo "<br/>";//.$style_spans['single_word'].$sentence.'</span>';
+    					}
     				}
     				
     				foreach($words as $word) {
@@ -352,7 +352,7 @@ class RatingController extends Controller {
     						$use_style = 'known';
     					}
     					
-    					if ($verbose_debug && count($words) > 1) {
+    					if ($verbose_debug) { //&& count($words) > 1
     						echo '&nbsp;'.$style_spans[$use_style].$word.'</span>';
     					}
     					
@@ -448,7 +448,7 @@ class RatingController extends Controller {
 		//CakeLog::write('rating','Sätze: '.$count_sentences." ( mit $count_fillers 'Fillern')");
 		//CakeLog::write('rating',$count_known_words.' von '.$count_dict_words.' words gefunden');
 		echo '<hr>';
-		echo "<br/>Sätze: ".$count_sentences;
+		echo "<br/>Sätze: ".$count_sentences.' / Zeichen: '.$count_characters;
 		echo "<br/>( mit $count_fillers 'Fillern')";
 		if ($use_dictionary) {
 			echo "<br/>".$count_known_words.' von '.$count_dict_words.' words gefunden';

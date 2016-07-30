@@ -297,7 +297,7 @@ class CrawlerController extends Controller {
 		$this->_stop();
 	}
 	
-	private function curl_loadUrl($url, $domain, $timeout = 120) {
+	private function curl_loadUrl($url, $domain, $timeout = 30) {
 		$curl = curl_init();
 	
 		curl_setopt_array($curl, array(
@@ -321,7 +321,9 @@ class CrawlerController extends Controller {
 			
 		$effective_url = curl_getinfo($curl, CURLINFO_EFFECTIVE_URL);
 		$http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-			
+		
+		//TODO: Fehlerhaft laut logs, manchmal header_size == 0?
+		//https://github.com/everyusernameistaken123/nawebe/issues/8#issuecomment-236354179
 		$header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
 		$header = substr($result, 0, $header_size);
 		$body = substr($result, $header_size);
