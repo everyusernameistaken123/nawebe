@@ -249,7 +249,7 @@ class CrawlerController extends Controller {
 					
 					$href = $attr->getNamedItem('href');
 					if ($href != null) {
-						$new_url = $attr->getNamedItem('href')->nodeValue;
+						$new_url = $href->nodeValue;
 						$new_domain = parse_url($new_url, PHP_URL_HOST);
 						$blacklisted = $this->Domain->find('first',array('conditions'=>array(
 								'blacklist' => 1,
@@ -258,6 +258,51 @@ class CrawlerController extends Controller {
 						if ($blacklisted == null) {
 							//DEBUG: Heraus finden, ob nicht bereits mehr als 100 Seiten gecrawlt wurden?
 							//Lösungsgedanke: Trotzdem neue seite aufnehmen, um Daten aktuell zu halten)
+							//echo "<br/>$new_url";
+							$new_url = strtolower($new_url);
+							if (substr($new_url,0,1) != '#' && substr($new_url,0,11) != 'javascript:' && substr($new_url,0,7) != 'mailto:' && substr($new_url,0,4) != 'tel:') {
+								$new_url = $this->rel2abs($new_url, $url['Website']['url']);
+								//echo "<br/> :: $new_url";
+								$this->Website->create();
+								try {
+									if ($this->Website->save(array('url' => $new_url))) {
+										$new_count ++;
+									}
+								} catch (Exception $e) {
+									//Das sollte eigentlich schon von Website->save abgefangen werden, oder?
+								}
+							}
+						}
+					}
+				}
+				
+				//Frameset-sources
+				$links = $xpath->query("//frame");
+				
+				foreach ($links as $node) {
+					$attr = $node->attributes;
+						
+					//rel="nofollow" Attribut berücksichtigen (gibts das in framesets überhaupt?)
+					/*
+					$rel = $attr->getNamedItem('rel');
+					if ($rel != null) {
+						$rel_value = $attr->getNamedItem('href')->nodeValue;
+						if ($rel_value == 'nofollow') {
+							$rel_nofollow_count++;
+							continue;
+						}
+					}
+					*/
+						
+					$href = $attr->getNamedItem('src');
+					if ($href != null) {
+						$new_url = $href->nodeValue;
+						$new_domain = parse_url($new_url, PHP_URL_HOST);
+						$blacklisted = $this->Domain->find('first',array('conditions'=>array(
+								'blacklist' => 1,
+								'domain' => $new_domain
+						)));
+						if ($blacklisted == null) {
 							//echo "<br/>$new_url";
 							$new_url = strtolower($new_url);
 							if (substr($new_url,0,1) != '#' && substr($new_url,0,11) != 'javascript:' && substr($new_url,0,7) != 'mailto:' && substr($new_url,0,4) != 'tel:') {
