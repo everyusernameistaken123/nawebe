@@ -106,5 +106,18 @@ class StatisticsController extends Controller {
 		$this->set('class_read', 'alert');
 		$this->set('selected_index', $index);
 	}
+	
+	public function encoding() {
+		$this->Website->unbindModel(array('hasMany'=>array('WebsiteReadability')));
+		
+		$enc_data = $this->Website->find('all',array(
+				'fields'=>array('count(*) as c','given_encoding'),
+				'conditions'=>array('date_crawled is not null'),
+				'group'=>array('given_encoding'),
+				'order'=>'c desc'
+		));
+		
+		$this->set('enc_data',$enc_data);
+	}
 }
 ?>

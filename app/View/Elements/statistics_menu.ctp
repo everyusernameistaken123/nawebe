@@ -1,11 +1,14 @@
 <div class="row-fluid">
-	<div class="span2">
+	<div class="span3">
 		Allgemein<br/>
 		<a href="<?php echo $this->Html->Url(array('action'=>'index')); ?>" class="btn btn-mini">
 			Überblick
 		</a>
+		<a href="<?php echo $this->Html->Url(array('action'=>'encoding')); ?>" class="btn btn-mini">
+			Kodierung
+		</a>
 	</div>
-	<div class="span6">
+	<div class="span4">
 		Domains<br/>
 		<a href="<?php echo $this->Html->Url(array('action'=>'domains','topdict')); ?>" class="btn btn-mini">
 			Top 10 Wörterbuch
@@ -13,6 +16,7 @@
 		<a href="<?php echo $this->Html->Url(array('action'=>'domains','topfiller')); ?>" class="btn btn-mini">
 			Top 10 Füllwörter
 		</a>
+		<br/>
 		<a href="<?php echo $this->Html->Url(array('action'=>'domains','lowdict')); ?>" class="btn btn-mini">
 			Niedrigste 10 Wörterbuch
 		</a>
