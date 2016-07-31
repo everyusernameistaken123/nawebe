@@ -3,6 +3,10 @@ class CrawlerController extends Controller {
 	public $uses = array('KnownWord', 'Website', 'Domain');
 	
 	public function crawlWebsites($limit = 10, $id = null, $slave = false) {
+		
+		//2016-07-30: Added this detect_encoding... lets see if it changes anything
+		mb_detect_encoding("UTF-8,ISO-8859-1,ISO-8859-15,WINDOWS-1251,WINDOWS-1252,ASCII");
+		
 		if ($id == null) {
 			
 			$urls = $this->Website->find('all',array(
@@ -122,7 +126,7 @@ class CrawlerController extends Controller {
 			$xpath->registerNamespace( 'xml', 'http://www.w3.org/1999/xhtml' );
 			
 			//MIME-Typen wie pdf usw. ignorieren (DEBUG - Billiglösung ;) )
-			if (strpos($header, 'content-type: text') === false) {
+			if (strpos($header, 'content-type: text') === false && strpos($header, 'content-type: application/xhtml') === false) {
 				CakeLog::write('debug','drop '.$url['Website']['url'].' because of Content-Type (no text)');
 				echo "<br/>Content-Type ist nicht text/* -> Abbruch";
 				
@@ -261,8 +265,9 @@ class CrawlerController extends Controller {
 								//echo "<br/> :: $new_url";
 								$this->Website->create();
 								try {
-									$this->Website->save(array('url' => $new_url));
-									$new_count ++;
+									if ($this->Website->save(array('url' => $new_url))) {
+										$new_count ++;
+									}
 								} catch (Exception $e) {
 									//Das sollte eigentlich schon von Website->save abgefangen werden, oder?
 								}
@@ -433,8 +438,11 @@ class CrawlerController extends Controller {
 	}
 	
 	private function getEncoding($xpath, $header) {
-		//Wir halten uns da dran ;)
+		//Wir halten uns daran ;)
 		//http://www.w3.org/International/questions/qa-html-encoding-declarations
+		//und insbesondere daran:
+		//https://www.w3.org/TR/html5/document-metadata.html#attr-meta-http-equiv-content-type
+		//(Manchmal kommt zB "TEXT/HTML;UTF-8" vor, das ist nicht zulässig laut spec
 		
 		//HTTP-Header
 		$http_encoding = null;
@@ -450,6 +458,8 @@ class CrawlerController extends Controller {
 			}
 		}
 		echo "<br/>HTTP-Encoding: ".$http_encoding;
+		
+		//DEBUG: Angaben wie <?xml version="1.0" encoding="UTF-8"... in XHTML5 erkennen - Aber ist wohl nicht weit verbreitet?
 		
 		//HTML-Meta-Tags
 		$xpaths = array(
@@ -472,9 +482,13 @@ class CrawlerController extends Controller {
 		
 		echo "<br/>HTML-Encoding: ".$html_encoding;
 		
-		$encoding = $html_encoding;
+		//According to http://stackoverflow.com/a/7103606, http-header overrules html-header
+		$encoding = $http_encoding;
 		if ($encoding == null) {
-			$encoding = $http_encoding;
+			$encoding = $html_encoding;
+		} else if ($http_encoding != $html_encoding) {
+			//Useless if we don't write for which URL this happens...
+			//CakeLog::write('debug','Encoding-issue http / html header different: '.$http_encoding.' <> '.$html_encoding);
 		}
 		return $encoding;
 	}
