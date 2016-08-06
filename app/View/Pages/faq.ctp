@@ -28,7 +28,7 @@ Es soll einfach ein &quot;Überblick für statistik-interessierte Personen&quot;
 
 <p class="question">Nicht-Kommerziell ist nett, aber wie sieht es mit Open-Source aus?</p>
 <p class="answer">
-Sobald der Code etwas ausgereifter ist, ist auch geplant ihn frei zugänglich zu machen.
+Seit Juli 2016 auf <a href="https://github.com/everyusernameistaken123/nawebe">Github</a> verfügbar.
 </p>
 
 <p class="question">Welche Technologien werden verwendet?</p>
@@ -140,7 +140,7 @@ Mehr als 10 pro 1000 (bzw. 1%) werden als schlecht (0%) angesehen.
 <p class="question">Was ist ein Lesbarkeits-Index?</p>
 <p class="answer">
 Hier sei natürlich am Anfang der <a href="https://de.wikipedia.org/wiki/Lesbarkeitsindex">Wikipedia-Artikel</a> empfohlen.<br/>
-Ein guter Überlick über verschiedene Formeln gibt es <a href="http://www.ideosity.com/ourblog/post/ideosphere-blog/2010/01/14/readability-tests-and-formulas">hier</a>
+Ein guter Überlick über verschiedene Formeln gibt es <a href="http://www.readabilityformulas.com/search/pages/Readability_Formulas/">hier</a>
 </p>
 
 <p class="question">Welche Indizes werden verwendet?</p>
