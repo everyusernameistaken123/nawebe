@@ -8,25 +8,33 @@ class CrawlerController extends Controller {
 		mb_detect_encoding("UTF-8,ISO-8859-1,ISO-8859-15,WINDOWS-1251,WINDOWS-1252,ASCII");
 		
 		if ($id == null) {
-			
+			/*
 			$urls = $this->Website->find('all',array(
 					'conditions'=>array('date_crawled is null'),
 					'limit' => $limit,
 					//'order' => 'rand()'
 					'order'=>'Website.id'
 			));
+			*/
 			
 			//Just to "refresh" all crawled data -> DEBUG
-			
-			//SELECT * FROM `websites` WHERE date_crawled is not null and date_rated is null order by id
-			
 			/*
 			$urls = $this->Website->find('all',array(
-					'conditions'=>array("date_rated < '2016-07-01'"),
+					'conditions'=>array(
+							"date_crawled is not null",
+							"date_rated is null"
+					),
 					'limit' => $limit,
-					'order' => 'rand()'
+					'order' => 'RAND()'
 			));
 			*/
+			
+			$urls = $this->Website->find('all',array(
+					'conditions'=>array("date_rated < '2016-03-01'"),
+					'limit' => $limit,
+					'order' => 'date_rated'
+			));
+			
 		} else {
 			$urls = $this->Website->findAllById($id);
 		}
@@ -277,7 +285,8 @@ class CrawlerController extends Controller {
 				}
 				
 				//Frameset-sources
-				$links = $xpath->query("//frame");
+				//TODO: iframes are untested so far!!!
+				$links = $xpath->query("//frame | //iframe");
 				
 				foreach ($links as $node) {
 					$attr = $node->attributes;
