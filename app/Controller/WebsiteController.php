@@ -5,11 +5,11 @@ class WebsiteController extends Controller {
 	public function index() {
 		$result = $this->Domain->find('list',array(
 				'fields'=>array('ending'),
-				'conditions'=>array('blacklist'=>0, 'sites > 0'),
+				'conditions'=>array('blacklist'=>0, 'sites > 0', 'ending not in ("at","de","ch")'),
 				'group' => 'ending',
 				'order' => 'ending'
 		));
-		$endings = array();
+		$endings = array('at'=>'at','ch'=>'ch','de'=>'de','---'=>'---');
 		foreach($result as $ending) {
 			$endings[ $ending ] = $ending;
 		}
