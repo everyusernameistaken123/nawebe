@@ -52,7 +52,7 @@ class StatisticsController extends Controller {
 		$conditions = array('blacklist' => 0, 'sites > 0');
 		
 		$this->paginate = array('Domain' => array(
-				'limit' => 10,
+				'limit' => 50,
 				'order' => $order,
 				'conditions' => $conditions
 		));
@@ -86,7 +86,7 @@ class StatisticsController extends Controller {
 	
 		$websites = $this->Website->find('all',array(
 				'fields'=>array('Website.*', 'WebsiteReadability.*'),
-				'limit' => 10,
+				'limit' => 50,
 				'conditions' => $conditions,
 				'order'=>$order,
 				'joins' => array(
