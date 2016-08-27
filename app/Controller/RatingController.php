@@ -4,11 +4,22 @@ class RatingController extends Controller {
 			'Website', 'Domain',
 			'Filler', 'WebsiteReadability',
 			'KnownWord', 'UnknownWord',
-			'Shorthand', 'Brand'
+			'Shorthand', 'Brand', 'Robot'
 	);
 	
 	public function rate($id = null, $slave = false, $data = null) {
 		if (!$slave) {
+			//Nur für "echte" Benutzer, crawler sollen uns da nicht zuviel Rechenlast erzeugen
+			$robots = $this->Robot->find('list');
+			$user_agent = env('HTTP_USER_AGENT');
+			foreach($robots as $robot) {
+				if (strpos($user_agent, $robot) !== false) {
+					CakeLog::write('debug',$user_agent.' is considered as bot - blocked from Rating');
+					echo '<p>Der User-Agent "'.$user_agent.' darf den Rating-Algorithmus nicht ausführen."</p>';
+					$this->_stop();
+				}
+			}
+			
 			$verbose_debug = $this->request->query('verbose_output');
 			$timing_output = $this->request->query('timing_output');
 			$use_dictionary = $this->request->query('use_dictionary');
