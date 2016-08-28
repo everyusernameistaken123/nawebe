@@ -5,7 +5,7 @@ class AriRating extends Rating {
 	protected $short_name = 'ARI';
 	protected $full_name = 'Automated Readability Index';
 	protected $scale_min = 1;
-	protected $scale_max = 20;
+	protected $scale_max = 24;
 	
 	protected $need_params = array('characters', 'words', 'sentences');
 	
@@ -16,7 +16,8 @@ class AriRating extends Rating {
 			return 0;
 		}
 		
-		return 4.71 * ($this->parameters['characters'] / $this->parameters['words']) + 0.5 * ($this->parameters['words'] / $this->parameters['sentences']) - 21.43;
+		$value = 4.71 * ($this->parameters['characters'] / $this->parameters['words']) + 0.5 * ($this->parameters['words'] / $this->parameters['sentences']) - 21.43;
+		return $this->applyMinMax($value);
 	}
 	
 	public function getRatingText() {

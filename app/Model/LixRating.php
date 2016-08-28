@@ -17,7 +17,8 @@ class LixRating extends Rating {
 			return 0;
 		}
 		
-		return ( $this->parameters['words'] / $this->parameters['sentences'] ) + 100 * ( $this->parameters['long_words'] / $this->parameters['words'] );
+		$value = ( $this->parameters['words'] / $this->parameters['sentences'] ) + 100 * ( $this->parameters['long_words'] / $this->parameters['words'] );
+		return $this->applyMinMax($value);
 	}
 	
 	public function getRatingText() {

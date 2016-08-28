@@ -42,5 +42,15 @@ class Rating extends AppModel {
 	public function getScaleMax() {
 		return $this->scale_max;
 	}
+	
+	protected function applyMinMax($value) {
+		if ($value < $this->scale_min) {
+			return $this->scale_min;
+		}
+		if ($value > $this->scale_max) {
+			return $this->scale_max;
+		}
+		return $value;
+	}
 }
 ?>
