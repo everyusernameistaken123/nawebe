@@ -5,7 +5,7 @@ class AriRating extends Rating {
 	protected $short_name = 'ARI';
 	protected $full_name = 'Automated Readability Index';
 	protected $scale_min = -2;
-	protected $scale_max = 24;
+	protected $scale_max = 34;
 	
 	protected $need_params = array('characters', 'words', 'sentences');
 	

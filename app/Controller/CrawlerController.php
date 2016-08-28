@@ -444,10 +444,12 @@ class CrawlerController extends Controller {
 	
 	private function checkLanguage($domain_ending, $xpath, $header, $url) {
 		$ok = false;
+		/*
 		if ($domain_ending == 'de' || $domain_ending == 'at') {
 			//Domain-Endung .de oder .at
 			$ok = true;
 		} else {
+		*/
 			//Meta-Tags / Attribute
 			$lang_meta = '';
 			$xpaths = array(
@@ -480,8 +482,15 @@ class CrawlerController extends Controller {
 			//(bei .net oder sonstigen Endungen können wir das ja nicht wissen -> Betreiber Schuld)
 			if (strpos($lang_meta, 'de') > 0) {
 				$ok = true;
+			} else {
+				if ($lang_meta == '') {
+					if ($domain_ending == 'de' || $domain_ending == 'at') {
+						//Domain-Endung .de oder .at - ist OK wenn es sonst keine Sprach-Angabe gibt
+						$ok = true;
+					}
+				}
 			}
-		}
+		//}
 		if (!$ok) {
 			CakeLog::write('debug','drop '.$url['Website']['url'].' because of language');
 			$this->Website->id = $url['Website']['id'];
