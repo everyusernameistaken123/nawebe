@@ -87,11 +87,27 @@ class BackendController extends Controller {
 		
 		foreach($domains as $domain) {
 			$id = $domain['Domain']['id'];
-			$count = $this->Website->find('count',array('conditions'=>array('domain_id' => $id)));
-			if ($count != $domain['Domain']['sites']) {
+			
+			//old, just site-count
+			//$count = $this->Website->find('count',array('conditions'=>array('domain_id' => $id)));
+			//new, site-count with avg
+			$avg = $this->Website->find('all',array(
+					'fields' => array(
+							'avg(rating_dictionary) as avg_dict',
+							'avg(rating_fillers) as avg_fill',
+							'count(*) as c'
+					),
+					'conditions' => array('domain_id' => $id)
+			));
+			
+			if ($avg[0][0]['c'] != $domain['Domain']['sites']) {
 				$this->Domain->id = $id;
-				$this->Domain->saveField('sites', $count);
-				echo '<br/>'.$id.' / '.$domain['Domain']['domain'].' sites: '.$domain['Domain']['sites'].' => '.$count;
+				$this->Domain->save(array(
+						'avg_dictionary' => $avg[0][0]['avg_dict'],
+						'avg_fillers' => $avg[0][0]['avg_fill'],
+						'sites' => $avg[0][0]['c']
+				));
+				echo '<br/>'.$id.' / '.$domain['Domain']['domain'].' sites: '.$domain['Domain']['sites'].' => '.$avg[0][0]['c'];
 			}
 		}
 		echo '<br/><a href="'.$id.'">continue</a>';

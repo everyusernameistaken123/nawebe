@@ -14,7 +14,7 @@ class RatingController extends Controller {
 			$user_agent = env('HTTP_USER_AGENT');
 			foreach($robots as $robot) {
 				if (strpos($user_agent, $robot) !== false) {
-					CakeLog::write('debug',$user_agent.' is considered as bot - blocked from Rating');
+					CakeLog::write('debug',$user_agent.' is considered as bot (keyword '.$robot.') - blocked from Rating');
 					echo '<p>Der User-Agent "'.$user_agent.' darf den Rating-Algorithmus nicht ausführen."</p>';
 					$this->_stop();
 				}
