@@ -335,8 +335,10 @@ class RatingController extends Controller {
 		    						$unknown = $this->UnknownWord->findByWord($word);
 		    						if ($unknown == null) {
 		    							try{
-			    							$this->UnknownWord->create();
-			    							$this->UnknownWord->save(array('word' => $word));
+		    								if ($word_length < 64) {
+			    								$this->UnknownWord->create();
+			    								$this->UnknownWord->save(array('word' => $word));
+		    								}
 		    							} catch (Exception $e) {
 		    								//2016-4-12: Hier trat ein "Duplicate entry '' for key 'word'" auf
 		    								//Sollte zwar eigentlich gar nicht sein (leeres Wort!?) aber naja, Fehler abfangen

@@ -32,7 +32,8 @@ class BackendController extends Controller {
 				WHERE
 					w1.words = w2.words AND
 					w1.id != w2.id AND
-   					w1.checksum is not null
+   					w1.checksum is not null AND
+					w1.words > 0
 				LIMIT $limit");
 		
 		$done = array();
