@@ -2,11 +2,30 @@
 class BackendController extends Controller {
 	public $uses = array('Website', 'KnownWord', 'UnknownWord', 'Domain');
 	
-	public function index() {
-		
+	private function checkAccess() {
+		return $this->Session->read('BackendSecret');
+	}
+	
+	public function index($secret = null) {
+		if (!$this->checkAccess()) {
+			$reference = new DateTime();
+			$reference->sub(new DateInterval('P1D'));
+			$input = new DateTime($secret);
+			
+			if ($input->format('Y-m-d') != $reference->format('Y-m-d')) {
+				echo '<p>Zugang gesperrt, bitte erkundige dich wie das geht - oder lass es bleiben.</p>';
+				$this->_stop();
+			} else {
+				$this->Session->write('BackendSecret',true);
+			}
+		}
 	}
 	
 	public function duplicates($page = 0) {
+		if (!$this->checkAccess()) {
+			$this->redirect(array('action'=>'index'));
+		}
+		
 		$limit = ($page*100).',100';
 		$duplicate_ids = $this->Website->query("SELECT w1.id, w2.id
 				FROM `websites` w1 join websites w2 on w1.checksum = w2.checksum
@@ -38,7 +57,10 @@ class BackendController extends Controller {
 	}
 	
 	public function deleteWebsite($id = null) {
-		//Gehört eigentlich in WebsiteController, aber wir haben keine Zugriffsrechte und bevor da jemand lustig wird...
+		if (!$this->checkAccess()) {
+			$this->redirect(array('action'=>'index'));
+		}
+		
 		$this->Website->id = $id;
 		$this->Website->delete();
 		echo "OK";
@@ -46,6 +68,10 @@ class BackendController extends Controller {
 	}
 	
 	public function manageUnknown($page = 0) {
+		if (!$this->checkAccess()) {
+			$this->redirect(array('action'=>'index'));
+		}
+		
 		$unknown = $this->UnknownWord->find('all',array(
 				'conditions' => array('checked'=>0),
 				'limit' => 100,
@@ -58,6 +84,10 @@ class BackendController extends Controller {
 	
 	//für ajax
 	public function processUnknown($id = null, $confirm = false) {
+		if (!$this->checkAccess()) {
+			echo 'not found';
+		}
+		
 		$this->UnknownWord->id = $id;
 		$unknown = $this->UnknownWord->read();
 		if ($unknown == null) {
@@ -82,6 +112,7 @@ class BackendController extends Controller {
 	//2016-06-19: Gibt doch schon einige Domains, wo site-count nicht passt
 	//Update ist ein Cronjob, kann nicht "schnell" als SQL-Query gemacht werden
 	public function updateDomainSiteCount($start_id = 1) {
+		//nicht "geschützt" ("checkAccess") weil da können Daten nicht "manipuliert" oder gelöscht werden... höchstens etwas Rechenalst erzeugt werden...
 		
 		$domains = $this->Domain->find('all',array('conditions'=>array('blacklist'=>0,'id >= '.$start_id), 'limit'=>20));
 		
