@@ -145,8 +145,8 @@ class CrawlerController extends Controller {
 			}
 			
 			//Nur weiter machen, wenn auch Deutsch irgendwo angegeben ist!
-			$ok = $this->checkLanguage($domain_ending, $xpath, $header, $url);
-			if (!$ok) {
+			$lang_ok = $this->checkLanguage($domain_ending, $xpath, $header, $url);
+			if (!$lang_ok) {
 				continue;
 			}
 			
@@ -342,7 +342,11 @@ class CrawlerController extends Controller {
 		}
 		
 		if ($slave) {
-			return $html;
+			if ($lang_ok) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 		
 		if ($id > 0) {
@@ -483,6 +487,7 @@ class CrawlerController extends Controller {
 			if (strpos($lang_meta, 'de') > 0) {
 				$ok = true;
 			} else {
+				$lang_meta = str_replace('-', '', $lang_meta);
 				if ($lang_meta == '') {
 					if ($domain_ending == 'de' || $domain_ending == 'at') {
 						//Domain-Endung .de oder .at - ist OK wenn es sonst keine Sprach-Angabe gibt

@@ -14,6 +14,7 @@ class RatingController extends Controller {
 			$user_agent = env('HTTP_USER_AGENT');
 			foreach($robots as $robot) {
 				if (strpos($user_agent, $robot) !== false) {
+					//TODO: Respond with 403-forbidden?
 					CakeLog::write('debug',$user_agent.' is considered as bot (keyword '.$robot.') - blocked from Rating');
 					echo '<p>Der User-Agent "'.$user_agent.' darf den Rating-Algorithmus nicht ausführen."</p>';
 					$this->_stop();
@@ -80,9 +81,22 @@ class RatingController extends Controller {
 			App::import('Controller','Crawler');
 			$crawlerController = new CrawlerController();
 			
-			$source = $crawlerController->crawlWebsites( 0, $id, true );
+			//Es könnte sich beim Crawling etwas an $data verändert haben, nochmal holen
+			if ($crawlerController->crawlWebsites( 0, $id, true )) {
+				$this->Website->id = $id;
+				$data = $this->Website->read();
+				$source = $data['Website']['sourcecode'];
+				
+				if (strlen($source) == 0) {
+					echo "- Stopped Rating because of no content -";
+					CakeLog::write('debug',"Stopped Rating because of no content for $id");
+					$this->_stop();
+				}
+			} else {
+				echo "- Stopped Rating because of language -";
+				$this->_stop();
+			}
 			
-			//throw new NotFoundException('Sourcecode for Website ID '.$id.' not available. Please call Crawler/crawlWebsites/0/'.$id);
 		}
 		
 		if (!isset($verbose_debug)) {

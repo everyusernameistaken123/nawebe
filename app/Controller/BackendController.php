@@ -31,7 +31,7 @@ class BackendController extends Controller {
 				FROM `websites` w1 join websites w2 on w1.checksum = w2.checksum
 				WHERE
 					w1.words = w2.words AND
-					w1.id != w2.id AND
+					w1.id > w2.id AND
    					w1.checksum is not null AND
 					w1.words > 0
 				LIMIT $limit");
