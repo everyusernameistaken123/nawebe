@@ -578,7 +578,7 @@ class RatingController extends Controller {
 		$result = array();
 		
 		//DEBUG: Punkt und Apostroph werden als Wort-Trennzeichen gewertet... Wäre zu diskutieren, aber sollte OK sein
-		$punct = array(' ',',','-',';','/','(',')','[',']','{','}','|','~','#','@','%','$','*','&','=','>','<','+',':','"',"'","\n","\r",chr(9));
+		$punct = array(' ',',','-',';','/','(',')','[',']','{','}','|','~','#','@','%','$','§','*','&','=','>','<','+',':','"',"'","\n","\r",chr(9));
 		$filter = array('1','2','3','4','5','6','7','8','9','0');
 		$utf8_filter = array(
 				169, //Copyright
