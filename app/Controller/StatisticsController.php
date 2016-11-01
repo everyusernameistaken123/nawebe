@@ -1,6 +1,6 @@
 <?php
 class StatisticsController extends Controller {
-	public $uses = array('Website', 'Domain', 'KnownWord', 'UnknownWord');
+	public $uses = array('Website', 'Domain', 'KnownWord', 'UnknownWord', 'Location', 'Brand');
 	
 	public function index() {
 		$this->redirect('overview');
@@ -16,10 +16,14 @@ class StatisticsController extends Controller {
 		));
 		
 		$words_count = $this->KnownWord->find('count');
+		$brands_count = $this->Brand->find('count');
+		$locations_count = $this->Location->find('count');
 		
 		$this->set('domain_count',$domain_count);
 		$this->set('website_count',$website_count);
 		$this->set('words_count',$words_count);
+		$this->set('locations_count',$locations_count);
+		$this->set('brands_count',$brands_count);
 	}
 	
 	public function domains($show = 'topdict') {

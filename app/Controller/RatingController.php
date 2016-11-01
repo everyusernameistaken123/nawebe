@@ -4,7 +4,7 @@ class RatingController extends Controller {
 			'Website', 'Domain',
 			'Filler', 'WebsiteReadability',
 			'KnownWord', 'UnknownWord',
-			'Shorthand', 'Brand', 'Robot'
+			'Shorthand', 'Brand', 'Robot', 'Location'
 	);
 	
 	public function rate($id = null, $slave = false, $data = null) {
@@ -108,7 +108,8 @@ class RatingController extends Controller {
 					'single_word' => '<span style="color:#999;">',
 					'known' => '<span style="color:#080;">',
 					'unknown' => '<span style="color:#B44;">',
-					'brand' => '<span style="color:#008;">'
+					'brand' => '<span style="color:#009;">',
+					'location' => '<span style="color:#808;">'
 			);
 			echo '<hr>';
 			echo 'Legende:<br/>';
@@ -117,6 +118,7 @@ class RatingController extends Controller {
 			echo $style_spans['single_word'].'Einzelne Wörter</span><br/>';
 			echo $style_spans['known'].'im Wörterbuch</span><br/>';
 			echo $style_spans['unknown'].'nicht im Wörterbuch</span><br/>';
+			echo $style_spans['location'].'Als Ort / geographische Angabe gewertet</span><br/>';
 			echo $style_spans['brand'].'Markenname / Eigenname - Wird nicht als Wörterbuch gewertet</span><br/>';
 			echo '<hr>';
 		}
@@ -145,6 +147,7 @@ class RatingController extends Controller {
 		$count_known_words = 0;
 		$count_dict_words = 0;
 		$count_fillers = 0;
+		$count_locations = 0;
 		$count_characters = 0;
 		
 		$xpath = new DOMXPath($doc);
@@ -341,28 +344,36 @@ class RatingController extends Controller {
 	    					} else {
 	    						$use_style = 'unknown';
 	    						
-	    						//unbekannt
-	    						
-	    						$brand = $this->Brand->findByBrand($word);
-	    						if ($brand == null) {
-	    						
-		    						$unknown = $this->UnknownWord->findByWord($word);
-		    						if ($unknown == null) {
-		    							try{
-		    								if ($word_length < 64) {
-			    								$this->UnknownWord->create();
-			    								$this->UnknownWord->save(array('word' => $word));
-		    								}
-		    							} catch (Exception $e) {
-		    								//2016-4-12: Hier trat ein "Duplicate entry '' for key 'word'" auf
-		    								//Sollte zwar eigentlich gar nicht sein (leeres Wort!?) aber naja, Fehler abfangen
-		    							}
-		    						} else {
-		    							$this->UnknownWord->id = $unknown['UnknownWord']['id'];
-		    						}
-		    						
+	    						//Ist es als Ort / geographische Bezeichnung bekannt?
+	    						$location = $this->Location->findByLocation($word);
+	    						if ($location != null) {
+	    							$use_style = 'location';
+	    							$count_known_words ++;
+	    							$count_locations ++;
 	    						} else {
-	    							$use_style = 'brand';
+	    							//Ist es als Marke / Firma bekannt?
+		    						$brand = $this->Brand->findByBrand($word);
+		    						if ($brand == null) {
+		    						
+		    							//Unbekannt
+			    						$unknown = $this->UnknownWord->findByWord($word);
+			    						if ($unknown == null) {
+			    							try{
+			    								if ($word_length < 64) {
+				    								$this->UnknownWord->create();
+				    								$this->UnknownWord->save(array('word' => $word));
+			    								}
+			    							} catch (Exception $e) {
+			    								//2016-4-12: Hier trat ein "Duplicate entry '' for key 'word'" auf
+			    								//Sollte zwar eigentlich gar nicht sein (leeres Wort!?) aber naja, Fehler abfangen
+			    							}
+			    						} else {
+			    							$this->UnknownWord->id = $unknown['UnknownWord']['id'];
+			    						}
+			    						
+		    						} else {
+		    							$use_style = 'brand';
+		    						}
 	    						}
 	    						//Zusammenhang zu Website herstellen damit Rating angepasst werden kann
 	    						//(Falls Wort doch existieren sollte)
@@ -432,7 +443,10 @@ class RatingController extends Controller {
 			unset($this->Website->data['Website']['url']);
 		}
 		if ($use_dictionary) {
-			$this->Website->saveField('rating_dictionary', $rating_dictionary);
+			$this->Website->save(array(
+					'rating_dictionary' => $rating_dictionary,
+					'locations' => $count_locations
+			));
 		}
 		
 		App::import('Controller','Crawler');
@@ -478,7 +492,7 @@ class RatingController extends Controller {
 		echo "<br/>Sätze: ".$count_sentences.' / Zeichen: '.$count_characters;
 		echo "<br/>( mit $count_fillers 'Fillern')";
 		if ($use_dictionary) {
-			echo "<br/>".$count_known_words.' von '.$count_dict_words.' words gefunden';
+			echo "<br/>".$count_known_words.' von '.$count_dict_words.' words und '.$count_locations.' Ortsangaben gefunden';
 		}
 		
 		//<<<< 3 >>>> Readability / Lesbarkeit

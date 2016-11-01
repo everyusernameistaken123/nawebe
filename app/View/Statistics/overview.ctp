@@ -16,7 +16,8 @@
 	</p>
 	
 	<p>
-		Das Wörterbuch umfasst <b><?php echo $words_count; ?></b> Einträge.
+		Das Wörterbuch umfasst <b><?php echo $words_count; ?></b> Einträge.<br/>
+		Zusätzlich wird auf <b><?php echo $locations_count; ?></b> Ortsangaben und <b><?php echo $brands_count; ?></b> Firmen- bzw. Markennamen geprüft.
 	</p>
 </div>
 </div>
