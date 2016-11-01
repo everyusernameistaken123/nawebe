@@ -79,7 +79,8 @@ class WebsiteController extends Controller {
 		
 		//DEBUG: Sortieren nach Readability-Index wär cool, aber mit cake nicht so leicht :( 
 		$this->paginate = array('Website' => array(
-				'limit' => 500, //Default is 20, we need ~100
+				'maxLimit' => 250,
+				'limit' => 250, //Default is 20, we need ~100
 				'conditions' => array(
 						'domain_id' => $domain_id,
 						'date_crawled is not null'
