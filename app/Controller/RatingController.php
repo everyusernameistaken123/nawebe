@@ -351,6 +351,19 @@ class RatingController extends Controller {
 	    							$count_known_words ++;
 	    							$count_locations ++;
 	    						} else {
+	    							
+	    							//Debugging for issue #34
+    								/*
+    								echo "<br/>check $word";
+    								$gaga = '';
+    								for ($i = 0; $i<mb_strlen($word); $i++) {
+    									$char = mb_substr($word, $i, 1, 'UTF-8');
+    									$utf8_code = $this->utf8_ord($char);
+    									$gaga .= $utf8_code.'-';
+    								}
+    								echo "<br/>UTF: $gaga";
+    								*/
+	    							
 	    							//Ist es als Marke / Firma bekannt?
 		    						$brand = $this->Brand->findByBrand($word);
 		    						if ($brand == null) {

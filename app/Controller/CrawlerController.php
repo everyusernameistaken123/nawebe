@@ -623,6 +623,9 @@ class CrawlerController extends Controller {
 	
 	private function traverseDOMNode(DOMNode $domNode) {
 		$return = '';
+		if (!$domNode->hasChildNodes()) {
+			return $return;
+		}
 		foreach ($domNode->childNodes as $node) {
 	        $return .= $node->nodeName;
 	        if ($node->nodeType == XML_TEXT_NODE) {
