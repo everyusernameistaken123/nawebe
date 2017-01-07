@@ -116,12 +116,15 @@ class WebsiteController extends Controller {
 	public function add() {
 		if ($this->request->is('post')) {
 			$url = trim($this->request->data['Website']['url']);
-			$pattern = "/^[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}/";
+			//First try
+			//$pattern = "/^[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,6}/";
+			//pretty good pattern from https://mathiasbynens.be/demo/url-regex
+			$pattern = "@(-\.)?([^\s/?\.#-]+\.?)+(/[^\s]*)?$@iS";
 			if (!preg_match($pattern, $url)) {
 				$this->set('feedback','Fehler, URL nicht in gültigem Domain-Format');
 			} else {
-				if (substr($url,0,7) != 'http://' || substr($url,0,8) != 'https://') {
-					$url = 'http://'.$url;
+				if (substr($url,0,7) != 'http://' && substr($url,0,8) != 'https://') {
+					$this->request->data['Website']['url'] = 'http://'.$url;
 				}
 				
 				//Möglichst niedrige freie ID finden (damit crawler sofort startet)
