@@ -23,6 +23,9 @@ Entsprechend § 17 ECG bin ich nicht für den Inhalt der verlinkten Seiten veran
 <br/>
 Selbstverständlich entferne ich Einträge aus der Datenbank, wenn mir ein Rechtsverstoß gemeldet wird.
 
+<h2>Datenschutz-Grundverordnung (DSGVO)</h2>
+
+Es werden keinerlei personenbezogenen Daten erfasst.
 
 </div>
 </div>

@@ -50,7 +50,7 @@
 			<?php echo $this->fetch('content'); ?>
 		</div>
 		<div id="footer">
-			<span class="fa fa-copyright"></span>&nbsp; 2015 - 2016 | 
+			<span class="fa fa-copyright"></span>&nbsp; 2015 - 2018 | 
 			<a href="<?php echo $this->Html->Url(array('controller'=>'pages','action'=>'display','imprint')); ?>">Impressum / Kontakt</a>
 		</div>
 	</div>
