@@ -407,6 +407,277 @@ CREATE TABLE `known_words` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `locations`
+--
+
+CREATE TABLE `locations` (
+  `id` int(11) NOT NULL,
+  `location` varchar(32) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `robots`
+--
+
+CREATE TABLE `robots` (
+  `id` int(11) NOT NULL,
+  `user_agent` varchar(32) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `robots`
+--
+
+INSERT INTO `robots` (`id`, `user_agent`) VALUES
+(1, 'bot'),
+(2, 'Spider'),
+(3, 'Crawler'),
+(4, 'ABCdatos BotLink'),
+(5, 'Ahoy! The Homepage Finder'),
+(6, 'Alkaline'),
+(7, 'Anthill'),
+(8, 'Walhello appie'),
+(9, 'Arachnophilia'),
+(10, 'Arale'),
+(11, 'Araneo'),
+(12, 'AraybOt'),
+(13, 'Aretha'),
+(14, 'ARIADNE'),
+(15, 'arks'),
+(16, 'AskJeeves'),
+(17, 'ASpider'),
+(18, 'ATN Worldwide'),
+(19, 'Atomz.com'),
+(20, 'AURESYS'),
+(21, 'BackRub'),
+(22, 'Big Brother'),
+(23, 'Bjaaland'),
+(24, 'BlackWidow'),
+(25, 'Die Blinde Kuh'),
+(26, 'Bloodhound'),
+(27, 'Borg-Bot'),
+(28, 'BoxSeaBot'),
+(29, 'bright.net'),
+(30, 'CACTVS'),
+(31, 'Calif'),
+(32, 'Cassandra'),
+(33, 'Checkbot'),
+(34, 'churl'),
+(35, 'cIeNcIaFiCcIoN.nEt'),
+(36, 'CMC/0.01'),
+(37, 'Collective'),
+(38, 'Combine System'),
+(39, 'Conceptbot'),
+(40, 'ConfuzzledBot'),
+(41, 'CoolBot'),
+(42, 'Web Core / Roots'),
+(43, 'Cusco'),
+(44, 'CyberSpyder'),
+(45, 'DeWeb'),
+(46, 'Digger'),
+(47, 'Direct Hit Grabber'),
+(48, 'DNAbot'),
+(49, 'DownLoad Express'),
+(50, 'DragonBot'),
+(51, 'DWCP'),
+(52, 'e-collector'),
+(53, 'EbiNess'),
+(54, 'EIT Link Verifier'),
+(55, 'ELFINBOT'),
+(56, 'Emacs-w3'),
+(57, 'ananzi'),
+(58, 'esculapio'),
+(59, 'Esther'),
+(60, 'Evliya Celebi'),
+(61, 'Fluid Dynamics'),
+(62, 'Felix IDE'),
+(63, 'Wild Ferret Web Hopper'),
+(64, 'FetchRover'),
+(65, 'fido'),
+(66, 'KIT-Fireball'),
+(67, 'Fish search'),
+(68, 'Fouineur'),
+(69, 'Freecrawl'),
+(70, 'FunnelWeb'),
+(71, 'gazz'),
+(72, 'GCreep'),
+(73, 'GetBot'),
+(74, 'GetURL'),
+(75, 'Golem'),
+(76, 'Googlebot'),
+(77, 'Grapnel'),
+(78, 'Griffon '),
+(79, 'Gromit'),
+(80, 'Northern Light Gulliver'),
+(81, 'Gulper Bot'),
+(82, 'HamBot'),
+(83, 'Harvest'),
+(84, 'havIndex'),
+(85, 'HTMLgobble'),
+(86, 'Hyper-Decontextualizer'),
+(87, 'iajaBot'),
+(88, 'IBM_Planetwide'),
+(89, 'Popular Iconoclast'),
+(90, 'Ingrid'),
+(91, 'Imagelock'),
+(92, 'IncyWincy'),
+(93, 'Informant'),
+(94, 'InfoSeek'),
+(95, 'Inspector'),
+(96, 'IntelliAgent'),
+(97, 'Iron33'),
+(98, 'JavaBee'),
+(99, 'JBot'),
+(100, 'Jeeves'),
+(101, 'JoBo'),
+(102, 'Jobot'),
+(103, 'JoeBot'),
+(104, 'Jubii'),
+(105, 'JumpStation'),
+(106, 'image.kapsi.net'),
+(107, 'Katipo'),
+(108, 'KDD-Explorer'),
+(109, 'Kilroy'),
+(110, 'LabelGrabber'),
+(111, 'larbin'),
+(112, 'legs'),
+(113, 'Link Validator'),
+(114, 'LinkScan'),
+(115, 'LinkWalker'),
+(116, 'Lockon'),
+(117, 'logo.gif'),
+(118, 'Lycos'),
+(119, 'Mac WWWWorm'),
+(120, 'Magpie'),
+(121, 'marvin'),
+(122, 'Mattie'),
+(123, 'MediaFox'),
+(124, 'MerzScope'),
+(125, 'NEC-Mesh'),
+(126, 'mnoGoSearch'),
+(127, 'moget'),
+(128, 'Monster'),
+(129, 'Motor'),
+(130, 'MSNBot'),
+(131, 'Muncher'),
+(132, 'Muninn'),
+(133, 'Muscat Ferret'),
+(134, 'Mwd.Search'),
+(135, 'Shinchakubin'),
+(136, 'Nederland.zoek'),
+(137, 'NetCarta WebMap Engine'),
+(138, 'NetMechanic'),
+(139, 'NetScoop'),
+(140, 'newscan-online'),
+(141, 'NHSE Web Forager'),
+(142, 'Nomad'),
+(143, 'nzexplorer'),
+(144, 'ObjectsSearch'),
+(145, 'Occam'),
+(146, 'HKU WWW Octopus'),
+(147, 'Openfind'),
+(148, 'Orb Search'),
+(149, 'Pack Rat'),
+(150, 'PageBoy'),
+(151, 'ParaSite'),
+(152, 'Patric'),
+(153, 'pegasus'),
+(154, 'Peregrinator'),
+(155, 'Phantom'),
+(156, 'PhpDig'),
+(157, 'PiltdownMan'),
+(158, 'Pimptrain.com'),
+(159, 'Pioneer'),
+(160, 'html_analyzer'),
+(161, 'PGP Key Agent'),
+(162, 'PlumtreeWebAccessor'),
+(163, 'Poppi'),
+(164, 'psbot'),
+(165, 'GetterroboPlus'),
+(166, 'Raven Search'),
+(167, 'RoadHouse Crawling System'),
+(168, 'RixBot'),
+(169, 'Road Runner'),
+(170, 'ComputingSite Robi/1.0'),
+(171, 'RoboFox'),
+(172, 'Robozilla'),
+(173, 'Roverbot'),
+(174, 'RuLeS'),
+(175, 'Scooter'),
+(176, 'Sleek'),
+(177, 'Search.Aus-AU.COM'),
+(178, 'SearchProcess'),
+(179, 'Senrigan'),
+(180, 'SG-Scout'),
+(181, 'ShagSeeker'),
+(182, 'Shai''Hulud'),
+(183, 'Sift'),
+(184, 'Site Valet'),
+(185, 'SiteTech-Rover'),
+(186, 'Skymob.com'),
+(187, 'Slurp'),
+(188, 'Snooper'),
+(189, 'Solbot'),
+(190, 'Spanner'),
+(191, 'Site Searcher'),
+(192, 'Suke'),
+(193, 'suntek search engine'),
+(194, 'Sven'),
+(195, 'Sygol'),
+(196, 'TACH Black Widow'),
+(197, 'Tarantula'),
+(198, 'TechBOT'),
+(199, 'Templeton'),
+(200, 'TeomaTechnologies'),
+(201, 'TITAN'),
+(202, 'TitIn'),
+(203, 'UCSD Crawl'),
+(204, 'UdmSearch'),
+(205, 'UptimeBot'),
+(206, 'URL Check'),
+(207, 'Valkyrie'),
+(208, 'Verticrawl'),
+(209, 'Victoria'),
+(210, 'vision-search'),
+(211, 'void-bot'),
+(212, 'Voyager'),
+(213, 'VWbot'),
+(214, 'W3M2'),
+(215, 'WallPaper'),
+(216, 'crawlpaper'),
+(217, 'Wanderer'),
+(218, 'WebCatcher'),
+(219, 'WebCopy'),
+(220, 'webfetcher'),
+(221, 'Webinator'),
+(222, 'weblayers'),
+(223, 'WebLinker'),
+(224, 'WebMirror'),
+(225, 'Web Moose'),
+(226, 'WebQuest'),
+(227, 'WebReaper'),
+(228, 'Websnarf'),
+(229, 'WebVac'),
+(230, 'webwalk'),
+(231, 'WebWalker'),
+(232, 'WebWatch'),
+(233, 'Wget'),
+(234, 'whatUseek Winona'),
+(235, 'Wired Digital'),
+(236, 'Weblog Monitor'),
+(237, 'w3mir'),
+(238, 'WebStolperer'),
+(239, 'Web Wombat'),
+(240, 'World Wide Web Worm'),
+(241, 'WWWC Ver 0.2.5'),
+(242, 'WebZinger'),
+(243, 'XGET');
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `shorthands`
 --
 
@@ -794,6 +1065,19 @@ ALTER TABLE `known_words`
   ADD UNIQUE KEY `word_2` (`word`);
 
 --
+-- Indexes for table `locations`
+--
+ALTER TABLE `locations`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `location` (`location`);
+
+--
+-- Indexes for table `robots`
+--
+ALTER TABLE `robots`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indizes für die Tabelle `shorthands`
 --
 ALTER TABLE `shorthands`
@@ -833,7 +1117,7 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT für Tabelle `domains`
 --
 ALTER TABLE `domains`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8704;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT für Tabelle `fillers`
 --
@@ -843,7 +1127,17 @@ ALTER TABLE `fillers`
 -- AUTO_INCREMENT für Tabelle `known_words`
 --
 ALTER TABLE `known_words`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=344460;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT for table `locations`
+--
+ALTER TABLE `locations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+--
+-- AUTO_INCREMENT for table `robots`
+--
+ALTER TABLE `robots`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=244;
 --
 -- AUTO_INCREMENT für Tabelle `shorthands`
 --
@@ -853,9 +1147,9 @@ ALTER TABLE `shorthands`
 -- AUTO_INCREMENT für Tabelle `unknown_words`
 --
 ALTER TABLE `unknown_words`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1024165;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 --
 -- AUTO_INCREMENT für Tabelle `websites`
 --
 ALTER TABLE `websites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2532307;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
